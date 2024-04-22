@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdWindow } from "react-icons/md";
 import { MdOutlinePowerSettingsNew } from "react-icons/md";
@@ -13,12 +13,24 @@ import { RiExpandRightFill } from "react-icons/ri";
 import moment from "moment";
 import DateTime from "./DateTime";
 
+
 const Sidebar = ({ location }) => {
   const [isExpanded, setIsExpanded] = useState(true); // State to control sidebar visibility
+  const [userRole, setUserRole] = useState(null);
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
+
+  useEffect(() => {
+    // Retrieve user role from localStorage
+    const storedRole = localStorage.getItem('roleName');
+
+    // Update state with the retrieved role
+    if (storedRole) {
+      setUserRole(storedRole);
+    }
+  }, []);
 
   const sidebarClass = isExpanded ? "w-64" : "w-16"; // Determine sidebar width based on state
   const dashboardClass = isExpanded
@@ -45,36 +57,32 @@ const Sidebar = ({ location }) => {
 
       <ul>
         <li
-          className={`transition-all duration-500 ease-in-out delay-100 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`transition-all duration-500 ease-in-out delay-100 ${isExpanded ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Link
             to="/Overview"
             className={pathname === "/Overview" ? "font-bold text-black" : ""}
           >
             <MdWindow
-              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${
-                isExpanded ? "" : "opacity-100"
-              }`}
+              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${isExpanded ? "" : "opacity-100"
+                }`}
             />
             {isExpanded && <span className="ml-2">Overview</span>}
           </Link>
         </li>
 
         <li
-          className={`transition-all duration-500 ease-in-out delay-300 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`transition-all duration-500 ease-in-out delay-300 ${isExpanded ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Link
             to="/charts"
             className={pathname === "/charts" ? "font-bold text-black" : ""}
           >
             <MdOutlineBarChart
-              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${
-                isExpanded ? "" : "opacity-100"
-              }`}
+              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${isExpanded ? "" : "opacity-100"
+                }`}
             />
             {isExpanded && (
               <span className="ml-2 transition-all duration-500 ease-in-out">
@@ -85,18 +93,16 @@ const Sidebar = ({ location }) => {
         </li>
 
         <li
-          className={`transition-all duration-500 ease-in-out delay-400 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`transition-all duration-500 ease-in-out delay-400 ${isExpanded ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Link
             to="/cli"
             className={pathname === "/cli" ? "font-bold text-black" : ""}
           >
             <PiTerminalFill
-              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${
-                isExpanded ? "" : "opacity-100"
-              }`}
+              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${isExpanded ? "" : "opacity-100"
+                }`}
             />
             {isExpanded && (
               <span className="ml-2 transition-all duration-500 ease-in-out">
@@ -106,41 +112,44 @@ const Sidebar = ({ location }) => {
           </Link>
         </li>
 
-        <li
-          className={`transition-all duration-500 ease-in-out delay-600 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <Link
-            to="/Users"
-            className={pathname === "/Users" ? "font-bold text-black" : ""}
-          >
-            <VscAccount
-              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${
-                isExpanded ? "" : "opacity-100"
+
+
+        {userRole === 'ADMIN' && (
+          <li
+            className={`transition-all duration-500 ease-in-out delay-600 ${isExpanded ? "opacity-100" : "opacity-0"
               }`}
-            />
-            {isExpanded && (
-              <span className="ml-2 transition-all duration-500 ease-in-out">
-                Users
-              </span>
-            )}
-          </Link>
-        </li>
+          >
+            <Link
+              to="/Users"
+              className={pathname === "/Users" ? "font-bold text-black" : ""}
+            >
+              <VscAccount
+                className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${isExpanded ? "" : "opacity-100"
+                  }`}
+              />
+              {isExpanded && (
+                <span className="ml-2 transition-all duration-500 ease-in-out">
+                  Users
+                </span>
+              )}
+            </Link>
+          </li>
+        )}
+
+
+
 
         <li
-          className={`transition-all duration-500 ease-in-out delay-700 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`transition-all duration-500 ease-in-out delay-700 ${isExpanded ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Link
             to="/Companies"
             className={pathname === "/Companies" ? "font-bold text-black" : ""}
           >
             <VscGlobe
-              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${
-                isExpanded ? "" : "opacity-100"
-              }`}
+              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${isExpanded ? "" : "opacity-100"
+                }`}
             />
             {isExpanded && (
               <span className="ml-2 transition-all duration-500 ease-in-out">
@@ -151,9 +160,8 @@ const Sidebar = ({ location }) => {
         </li>
 
         <li
-          className={`transition-all duration-500 ease-in-out delay-200 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`transition-all duration-500 ease-in-out delay-200 ${isExpanded ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Link
             to="/admin_settings"
@@ -162,9 +170,8 @@ const Sidebar = ({ location }) => {
             }
           >
             <MdOutlineSettings
-              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${
-                isExpanded ? "" : "opacity-100"
-              }`}
+              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${isExpanded ? "" : "opacity-100"
+                }`}
             />
             {isExpanded && (
               <span className="ml-2 transition-all duration-500 ease-in-out">
@@ -175,27 +182,24 @@ const Sidebar = ({ location }) => {
         </li>
 
         <li
-          className={`transition-all duration-500 ease-in-out delay-100 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`transition-all duration-500 ease-in-out delay-100 ${isExpanded ? "opacity-100" : "opacity-0"
+            }`}
         >
           <Link
             to="/"
             className={pathname === "/" ? "font-bold text-black" : ""}
           >
             <MdOutlinePowerSettingsNew
-              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${
-                isExpanded ? "" : "opacity-100"
-              }`}
+              className={`inline-block w-10 h-10 mt-2 mb-2 text-black fill-black transition-all duration-500 ease-in-out ${isExpanded ? "" : "opacity-100"
+                }`}
             />
             {isExpanded && <span className="ml-2">Log out</span>}
           </Link>
         </li>
 
         <li
-          className={`py-[850px] 2xl:text-xl transition-all duration-500 ease-in-out delay-800 ${
-            isExpanded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`py-[850px] 2xl:text-xl transition-all duration-500 ease-in-out delay-800 ${isExpanded ? "opacity-100" : "opacity-0"
+            }`}
         ></li>
       </ul>
     </div>
