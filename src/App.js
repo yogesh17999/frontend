@@ -21,7 +21,8 @@ import HomePage from './HomePage';
 import Page2 from './components/Page2';
 import { Windmill } from '@windmill/react-ui'
 import { Settings } from 'lucide-react';
-
+import Signup from "./pages/Signup";
+import CreateUser from "./pages/CreateUser";
 const App = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [username, setUsername] = React.useState("");
@@ -43,6 +44,19 @@ const App = () => {
               <LoginModal onLogin={handleLogin} />
             )}
           </Route>
+          <Route path="/signin">
+            {" "}
+            <LoginModal onLogin={handleLogin}  />{" "}
+          </Route>
+          <Route path="/signup">
+            {" "}
+            <Signup />{" "}
+          </Route>
+          <Route path="/createuser">
+            {" "}
+            <CreateUser />{" "}
+          </Route>
+          
 
           <Route path="/page2">
             {" "}

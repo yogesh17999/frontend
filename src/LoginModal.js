@@ -1,16 +1,44 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import apiService from "./services/ApiService"; // Import your API service
 
 const LoginModal = ({ onLogin }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // Validate username and password here
-    // For simplicity, let's just check if username and password are not empty
-    if (username && password) {
-      onLogin(username);
-    } else {
-      alert("Please enter username and password");
+  const handleLogin = async () => {
+    try {
+      if (email && password) {
+        // Make the login API request
+        const payload = {
+          email,
+          password
+        };
+
+        const response = await apiService.logIn(payload);
+
+        // Assuming the response includes a token upon successful login
+        const { token,role } = response;
+
+        if (token) {
+          // Save token and expiry time in local storage
+          const expiryTime = new Date().getTime() + 360000; // Set expiry to 6 minutes (360,000 milliseconds)
+          localStorage.setItem("token", token);
+          localStorage.setItem("roleName", role.roleName);
+
+          localStorage.setItem("expiryTime", expiryTime);
+
+          // Invoke the onLogin callback with the email and token
+          onLogin(email, token);
+        } else {
+          alert("Token not found in response. Please try again.");
+        }
+      } else {
+        alert("Please enter email and password.");
+      }
+    } catch (error) {
+      alert("Login failed. Please check your credentials.");
+      console.error("Login Error:", error.message);
     }
   };
 
@@ -23,9 +51,9 @@ const LoginModal = ({ onLogin }) => {
         <div className="mb-4">
           <input
             type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-1 placeholder-gray-500 bg-gray-100 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
           />
         </div>
@@ -55,9 +83,7 @@ const LoginModal = ({ onLogin }) => {
           </p>
           <p className="mb-0 text-sm text-gray-600">
             Don't have an account?{" "}
-            <a href="#" className="text-base text-blue-500 hover:text-blue-600">
-              Sign up
-            </a>
+            <Link to="/signup">Sign up</Link>
           </p>
         </div>
       </div>
