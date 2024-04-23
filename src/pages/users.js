@@ -14,11 +14,24 @@ const Users = () => {
   const [isExpanded, setIsExpanded] = useState(true); // State to control sidebar visibility
   const [userList, setUserList] = useState([])
 
+  const data = [
+    { id: 2, email: 'yogesh1799s9@gmail.com', phoneNumber: '7600259499' },
+    { id: 3, email: 'yogesh17999@gmail.com', phoneNumber: '7600259499' },
+    { id: 4, email: 'yogesh179s99@gmail.com', phoneNumber: '7600259499' },
+    { id: 5, email: 'abc17999@gmail.com', phoneNumber: '7777259499' },
+    { id: 6, email: 'sourabh@gmail.com', phoneNumber: '9877899876' },
+    { id: 7, email: 'sourabh@bn.cm', phoneNumber: '9879879878' },
+    { id: 8, email: 'user@gmail.com', phoneNumber: '9998889998' },
+    { id: 9, email: 'user@gmail.com', phoneNumber: '9998889998' },
+    { id: 10, email: 'user@gmail.com', phoneNumber: '9998889998' },
+
+  ];
+
   const fetchUsers = async () => {
     const token = localStorage.getItem('token');
     if (token && token != '') {
 
-      console.log("token",token);
+      console.log("token", token);
       try {
         // Call the getAllUsers API with the provided token
         const usersData = await apiService.getAllUsers();
@@ -34,8 +47,8 @@ const Users = () => {
 
   useEffect(() => {
     console.log("inside useeffect");
-      fetchUsers(); // Call the fetchUsers function to fetch user data
-    
+    fetchUsers(); // Call the fetchUsers function to fetch user data
+
 
   }, [fetchUsers])
   const toggleSidebar = () => {
@@ -47,7 +60,7 @@ const Users = () => {
   return (
     <div className="flex">
       <Sidebar isExpanded={isExpanded} />
-      <div className={`flex-1 ${isExpanded ? 'ml-64' : 'ml-16'}`}>
+      <div style={{ paddingBottom: '2%' }} className={`flex-1 ${isExpanded ? 'ml-64' : 'ml-16'}`}>
         <div className='flex justify-center'>
           <div className='w-full max-w-screen-lg px-4'>
             <div className='pt-20'>
@@ -74,7 +87,7 @@ const Users = () => {
 
 
 
-                      <Usertable userList={userList} />
+                      <Usertable userList={data} />
                       {/* <ul class="flex flex-col md:grid grid-cols-3 gap-5 text-redis-neutral-800 max-w-2xl mx-auto p-10 text-center">
                         <li
                           class="w-full text-sm font-semibold text-slate-900 bg-white border border-slate-700/10 bg-clip-padding shadow-md shadow-slate-900/5 flex flex-col justify-center">
