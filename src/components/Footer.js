@@ -7,7 +7,7 @@ import ProgressBar from '../components/ProgressBar';
 
 const Footer = () => {
   return (
-    <footer className='bg-black'>
+    <footer className='bg-black' style={{ paddingTop: '2%' }}>
     <div className='bg-white rounded-md shadow-md'></div>
     <div className='text-white bg-black'>PROGRESS</div>
     <div>
