@@ -24,7 +24,7 @@ function CreateUser() {
           password,
           // roleName : {role}
         }
-        debugger
+        
         
         // Make API request to signup endpoint
         const response = await apiService.signUp(payload);

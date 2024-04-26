@@ -11,9 +11,7 @@ const Signup = ({ onLogin }) => {
 
   const handleSignup = async () => {
     try {
-      // Validate username, email, and password (add more validation as needed)
-
-      // Check if required fields are not empty
+      debugger
       if (!phoneNumber || !email || !password) {
         alert("Please enter username, email, and password");
         return;
@@ -26,7 +24,7 @@ const Signup = ({ onLogin }) => {
       }
       debugger
       
-      // Make API request to signup endpoint
+    
       const response = await apiService.signUp(payload);
 
       // Handle successful signup (e.g., store token, redirect, etc.)
@@ -34,8 +32,9 @@ const Signup = ({ onLogin }) => {
       // Optionally, you can trigger a login after signup
       onLogin(email);
     } catch (error) {
-      console.error("Signup error:", error);
-      alert("Signup failed. Please try again.");
+      debugger
+      console.log(error);
+      alert("Signup failed: "+ error.message);
     }
   };
 

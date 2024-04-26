@@ -1,7 +1,7 @@
 // src/services/apiService.js
 import axios from 'axios';
 
-const baseURL = 'https://f359-106-221-64-229.ngrok-free.app'; // Your base URL
+const baseURL = ' https://3424-103-138-234-11.ngrok-free.app'; // Your base URL
 
 const apiService = {
   signUp: async (payload) => {
@@ -9,7 +9,19 @@ const apiService = {
       const response = await axios.post(`${baseURL}/auth/api/signup`, payload);
       return response.data;
     } catch (error) {
-      throw new Error(`Sign Up Error: ${error.message}`);
+        debugger
+        console.log(error)
+        if (error.response) {
+            console.log(error.response.data.message);
+            throw new Error(`${error.response.data.message}`);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.log(error.request);
+            throw new Error(`${error.request}`);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+        }
     }
   },
 
@@ -18,7 +30,9 @@ const apiService = {
       const response = await axios.post(`${baseURL}/auth/api/signin`, payload);
       return response.data;
     } catch (error) {
-      throw new Error(`Login Error: ${error.message}`);
+        debugger
+        console.log(error);
+      throw new Error(`Login Error: ${error}`);
     }
   },
 

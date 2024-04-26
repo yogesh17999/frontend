@@ -37,7 +37,7 @@ const LoginModal = ({ onLogin }) => {
         alert("Please enter email and password.");
       }
     } catch (error) {
-      alert("Login failed. Please check your credentials.");
+      alert(`Login Error: ${error.message}`);
       console.error("Login Error:", error.message);
     }
   };
